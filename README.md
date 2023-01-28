@@ -1,11 +1,16 @@
 # Rosetta
-# This repository contains the code for the project capstone, and the deliverable will be a MySQL database populated with OpenAlex data
+ This repository contains the code for the project capstone, and the deliverable will be a MySQL database populated with OpenAlex data
 Here are some examples of tables
 - authors
 - PaperAuthorAffiliations
 - Papers
 - Plus excel sheet mapping AffiliationID to Institute Names
 
+## Setup for openAlex python files
+
+1. cd to openAlex
+2. Activate environment (`conda activate capstone-env`)
+3. Load the Jupyter Notebook (`jupyter notebook`)
 
 
 ## How To Use
