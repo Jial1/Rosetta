@@ -1,7 +1,7 @@
 # Rosetta
  This repository contains the code for the project capstone, and the deliverable will be a MySQL database populated with OpenAlex data.
 Here are some examples of tables
-- authors
+- Authors
 - PaperAuthorAffiliations
 - Papers
 - Plus excel sheet mapping AffiliationID to Institute Names
