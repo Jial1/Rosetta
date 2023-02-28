@@ -9,8 +9,7 @@ Here are some examples of tables
 ## Setup for openAlex python files
 
 1. cd to openAlex
-2. Activate environment (`conda activate capstone-env`)
-3. Load the Jupyter Notebook (`jupyter notebook`)
+2. Load the Jupyter Notebook (`jupyter notebook`)
 
 
 ## How To Use
