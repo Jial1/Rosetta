@@ -2,7 +2,7 @@
 This repository contains code that pulls up-to-date publication data from OpenAlex API and the generated CSV files in the `csv` folder.
 
 ## openAlex
-openAlex[openAlex](https://docs.openalex.org/) is a open source API that offers hundreds of millions of interconnected entities across the global research system.
+[openAlex](https://docs.openalex.org/) is a open source API that offers hundreds of millions of interconnected entities across the global research system.
 
 
 ## Setup for openAlex python files
@@ -19,7 +19,7 @@ Running the three Python notebooks -- `Authors.ipynb`, `PaperAuthorAffiliations.
 
 ## To learn more about the datasets
 
-Check out our data dictionary[OGA data dictionary](https://docs.google.com/spreadsheets/d/1y_Jtng7HV7tWzaCAZaY8IQJ7MUMH6vxypSfgNVNuG6Y/edit#gid=0) to learn more about the details of our datasets, including a description of each field and its data type.
+Check out our [data dictionary](https://docs.google.com/spreadsheets/d/1y_Jtng7HV7tWzaCAZaY8IQJ7MUMH6vxypSfgNVNuG6Y/edit#gid=0) to learn more about the details of our datasets, including a description of each field and its data type.
 
 
 ### Notes
