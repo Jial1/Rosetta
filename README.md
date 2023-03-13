@@ -48,4 +48,4 @@ Link to our website with Dashboard: https://github.com/jamesjwkim/rosetta-rough
 | Kelly Wang | zwang28@uw.edu |
 | Lucy Zhu  | xzhu22@uw.edu |
 | Jiali Liu | jiali123@uw.edu |
-| Jimwoo Kim | jinwoo11@uw.edu |
+| Jinwoo Kim | jinwoo11@uw.edu |
