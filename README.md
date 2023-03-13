@@ -42,7 +42,7 @@ Link to our website with Dashboard: https://github.com/jamesjwkim/rosetta-rough
 
 
 ## **Teams:**
-|  Name:   | Contact infomation：  |
+|  Name   | Contact infomation  |
 |  ----  | ----  |
 | Vivian Yu  | pwy8900@uw.edu|
 | Kelly Wang | zwang28@uw.edu |
