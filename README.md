@@ -41,7 +41,7 @@ How might the UW Office of Global Affairs (OGA) achieve up-to-date publication d
 Link to our website with Dashboard: https://github.com/jamesjwkim/rosetta-rough
 
 
-## **Teams:**
+## **Team:**
 |  Name   | Contact infomation  |
 |  ----  | ----  |
 | Vivian Yu  | pwy8900@uw.edu|
