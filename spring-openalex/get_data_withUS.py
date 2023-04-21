@@ -1,8 +1,9 @@
 """
 Retrieves publication data from 
 """
-
+import pandas as pd
 import requests
+import os
 
 def get_UW_filtered_works_url(email):
 	"""
@@ -25,8 +26,6 @@ def get_UW_filtered_works_url(email):
 
 	if email:
 		filtered_works_url += f"&mailto={email}"
-
-	print(filtered_works_url)
 
 	return filtered_works_url
 
@@ -54,9 +53,19 @@ def get_full_publication_data(yourEmail):
 	works = []
 	loop_index = 0
 
-	# get the UW filtered works url, make sure to 
+	# get the UW filtered works url
 	filtered_works_url = get_UW_filtered_works_url(yourEmail)
 
+	# for testing, just 1 page
+	
+	url = f'{filtered_works_url}&select={select}&cursor={cursor}'
+	page_with_results = requests.get(url).json()
+
+	results = page_with_results['results']
+	works.extend(results)
+	
+
+	"""
 	while cursor:
 		# set cursor value and request page from OpenAlex
 		url = f'{filtered_works_url}&select={select}&cursor={cursor}'
@@ -71,9 +80,9 @@ def get_full_publication_data(yourEmail):
 
 		if loop_index in [5, 10, 20, 50, 100] or loop_index % 500 == 0:
 			print(f'{loop_index} api requests made so far')
-
+	"""
 	print(f'done. made {loop_index} api requests. collected {len(works)} works')
-
+	
 	return works
 
 def outside_uw_collab(institution_ids):
@@ -99,9 +108,9 @@ def international_collab(institution_country_codes):
 
 def organize_works_data(works):
 	"""
-	Takes a array 'works' as parameter.
-	Filters down to works that have at least one authorship outside of UW.
-	Converts the works data into a Pandas dataframe.
+	Takes a array 'works' as parameter
+	Filters down to works that have at least one authorship outside of UW
+	Converts the works data into a Pandas dataframe
 	"""
 	data = []
 
@@ -150,12 +159,73 @@ def organize_works_data(works):
 	return df_collab
 
 
+def get_institution_data(df_collab):
+	institution_ids = df_collab['institution_id'].dropna().unique()
+
+	endpoint = "institutions"
+	size = 50
+	loop_index = 0
+	institutions = []
+
+	for list_index in range(0, len(institution_ids), size):
+		subset = institution_ids[list_index:list_index+size]
+		pipe_separated_ids = "|".join(subset)
+		r = requests.get(f"https://api.openalex.org/institutions?filter=openalex:{pipe_separated_ids}&per-page={size}")
+		results = r.json()['results']
+		institutions.extend(results)
+		loop_index += 1
+
+	print(f"collected {len(institutions)} institutions using {loop_index} api calls")
+
+	data = []
+
+	for institution in institutions:
+		data.append({
+			'id': institution['id'],
+			'ror': institution['ror'],
+			'display_name': institution['display_name'],
+			'country_code': institution['country_code'],
+			'type': institution['type'],
+			'latitude': institution['geo']['latitude'],
+			'longitude': institution['geo']['longitude'],
+			'city': institution['geo']['city'],
+			'region': institution['geo']['region'],
+			'country': institution['geo']['country'],
+			'image_url': institution['image_url'],
+			'image_thumbnail_url': institution['image_thumbnail_url'],
+		})
+
+	df_institutions = pd.DataFrame(data)
+
+	return df_institutions
+
+
+def save_data(df_collab, df_institutions):
+	"""
+	Saves the data in CSV format
+	"""
+	if not os.path.isdir('../data'):
+		os.mkdir('../data')
+
+	# Save the publications data
+	# Each row represents a publication-author-affiliation
+	#outpath = '/data/uw_publication_collabs.csv.gz'
+	#df_collab.to_csv(outpath, index=False)
+
+	outpath = '../data/uw_collabs_institutions.csv.gz'
+	df_institutions.to_csv(outpath, index=False)
+
+
 
 
 def main():
 	works = get_full_publication_data("zwang28@uw.edu")
 
-	organize_works_data(works)
+	df_collab = organize_works_data(works)
+
+	df_institutions = get_institution_data(df_collab)
+
+	save_data(df_collab, df_institutions)
 	
 
 if __name__ == '__main__':
