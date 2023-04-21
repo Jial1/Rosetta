@@ -4,6 +4,7 @@ Retrieves publication data from
 import pandas as pd
 import requests
 import os
+import json
 
 def get_UW_filtered_works_url(email):
 	"""
@@ -27,6 +28,7 @@ def get_UW_filtered_works_url(email):
 	if email:
 		filtered_works_url += f"&mailto={email}"
 
+	print("filtered_works_url", filtered_works_url)
 	return filtered_works_url
 
 def get_full_publication_data(yourEmail):
@@ -35,6 +37,7 @@ def get_full_publication_data(yourEmail):
 
 	select = ",".join((
 	'id',
+	'doi',
 	'ids',
 	'title',
 	'display_name',
@@ -82,7 +85,6 @@ def get_full_publication_data(yourEmail):
 			print(f'{loop_index} api requests made so far')
 	"""
 	print(f'done. made {loop_index} api requests. collected {len(works)} works')
-	
 	return works
 
 def outside_uw_collab(institution_ids):
@@ -115,6 +117,15 @@ def organize_works_data(works):
 	data = []
 
 	for work in works:
+		
+		for key, source in work['primary_location'].items():
+			if key == 'source':
+				if source:
+					if source['display_name']:
+						journal_name = source['display_name'] if source else None
+
+
+
 		for authorship in work['authorships']:
 			if authorship:
 				author = authorship['author']
@@ -129,6 +140,8 @@ def organize_works_data(works):
 						institution_country_code = institution['country_code']
 						data.append({
 							'work_id': work['id'],
+							'doi_link': work['doi'],
+							'journal_name': journal_name,
 							'work_title': work['title'],
 							'work_display_name': work['display_name'],
 							'work_publication_year': work['publication_year'],
@@ -204,15 +217,15 @@ def save_data(df_collab, df_institutions):
 	"""
 	Saves the data in CSV format
 	"""
-	if not os.path.isdir('../data'):
-		os.mkdir('../data')
+	if not os.path.isdir('data'):
+		os.mkdir('data')
 
 	# Save the publications data
 	# Each row represents a publication-author-affiliation
-	#outpath = '/data/uw_publication_collabs.csv.gz'
-	#df_collab.to_csv(outpath, index=False)
+	outpath = './data/uw_publication_collabs.csv.gz'
+	df_collab.to_csv(outpath, index=False)
 
-	outpath = '../data/uw_collabs_institutions.csv.gz'
+	outpath = './data/uw_collabs_institutions.csv.gz'
 	df_institutions.to_csv(outpath, index=False)
 
 
