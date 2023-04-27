@@ -136,12 +136,12 @@ def organize_works_data(works):
 	data = []
 
 	for work in works:
-		
-		for key, source in work['primary_location'].items():
-			if key == 'source':
-				if source:
-					if source['display_name']:
-						journal_name = source['display_name'] if source else None
+		if work['primary_location'] is not None:
+			for key, source in work['primary_location'].items():
+				if key == 'source':
+					if source:
+						if source['display_name']:
+							journal_name = source['display_name'] if source else None
 
 
 
@@ -251,7 +251,7 @@ def save_data(df_collab, df_institutions):
 
 
 def main():
-	works = get_full_publication_data("zwang28@uw.edu")
+	works = get_full_publication_data("xzhu22@uw.edu")
 
 	df_collab = organize_works_data(works)
 
